@@ -33,12 +33,12 @@ const REPORTS = {
   },
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const session = renderShell('reports', 'Reports', 'Export / All Branches');
-  if (!session) return;
-  db = DB();
-  renderPage();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   const session = renderShell('reports', 'Reports', 'Export / All Branches');
+//   if (!session) return;
+//   db = DB();
+//   renderPage();
+// });
 
 function renderPage() {
   pageContent().innerHTML = `

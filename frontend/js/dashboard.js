@@ -26,8 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ${statCard('Total Transactions', fmtNum(totalTransactions), '+11.6% MoM', 'emerald')}
       ${statCard('Total Loans', fmtNum(totalLoans), '+1.1% MoM', 'slate')}
       ${statCard('Active Employees', fmtNum(activeEmployees), `${db.employees.length - activeEmployees} inactive`, 'slate')}
-      ${statCard('Fraud Alerts (Open)', fmtNum(openFraud), openFraud > 5 ? 'Needs review' : 'Within threshold', openFraud > 5 ? 'rose' : 'amber')}
-      ${statCard('Loan Approval Rate', fmtPct(approvalRate), 'Model v2.3', 'emerald')}
       ${statCard('Avg Credit Score', fmtNum(avgCreditScore), 'Across all customers', 'slate')}
     </div>
 
@@ -183,3 +181,8 @@ function baseOpts() {
     }
   };
 }
+
+
+// ${statCard('Fraud Alerts (Open)', fmtNum(openFraud), openFraud > 5 ? 'Needs review' : 'Within threshold', openFraud > 5 ? 'rose' : 'amber')}
+// ${statCard('Loan Approval Rate', fmtPct(approvalRate), 'Model v2.3', 'emerald')}
+      

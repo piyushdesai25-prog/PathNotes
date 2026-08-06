@@ -1,16 +1,16 @@
 let db;
 let activeTab = 'employees';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const session = renderShell('admin', 'Admin Panel', 'System / Configuration');
-  if (!session) return;
-  if (session.role !== 'Administrator') {
-    pageContent().innerHTML = `<div class="card-plain empty-state"><div class="glyph">403</div>Your role (${session.role}) does not have Admin Panel access.<br>Sign in as <span class="mono">admin</span> to manage system records.</div>`;
-    return;
-  }
-  db = DB();
-  renderPage();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   const session = renderShell('admin', 'Admin Panel', 'System / Configuration');
+//   if (!session) return;
+//   if (session.role !== 'Administrator') {
+//     pageContent().innerHTML = `<div class="card-plain empty-state"><div class="glyph">403</div>Your role (${session.role}) does not have Admin Panel access.<br>Sign in as <span class="mono">admin</span> to manage system records.</div>`;
+//     return;
+//   }
+//   db = DB();
+//   renderPage();
+// });
 
 function renderPage() {
   pageContent().innerHTML = `
