@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathNotes — an internship planner for engineering students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FAF6EC;
+    --paper-2: #F1EAD9;
+    --ink: #22314A;
+    --ink-soft: #4B5A73;
+    --line: #D8CDB4;
+    --marker: #E85D2D;
+    --marker-soft: #FCE0D1;
+    --sticky: #FFD866;
+    --sage: #8FAE8B;
+    --sage-soft: #E4EEE1;
+    --card-shadow: 2px 3px 0 rgba(34,49,74,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper) 0%, var(--paper) 100%);
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(circle, rgba(34,49,74,0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3, .display{
+    font-family:'Space Grotesk', sans-serif;
+    color:var(--ink);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .hand{
+    font-family:'Caveat', cursive;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* --- spiral binder rail --- */
+  .rail{
+    position:fixed; top:0; left:0; bottom:0; width:34px;
+    background:var(--paper-2);
+    border-right:1px solid var(--line);
+    display:flex; flex-direction:column; align-items:center;
+    padding-top:60px; gap:26px;
+    z-index:5;
+  }
+  .rail span{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--line);
+  }
+  @media (max-width:760px){ .rail{display:none;} body{padding-left:0;} }
+  body{padding-left:34px;}
+  @media (max-width:760px){ body{padding-left:0;} }
+
+  /* --- nav --- */
+  header{
+    padding:22px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1080px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:34px;height:34px; background:var(--ink); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk'; font-weight:700; font-size:16px;
+    transform:rotate(-4deg);
+    border-radius:4px;
+  }
+  .brand-name{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  nav{display:flex; gap:26px; font-size:15px; color:var(--ink-soft);}
+  nav a{text-decoration:none;}
+  nav a:hover{color:var(--marker);}
+  @media (max-width:700px){ nav{display:none;} }
+
+  /* --- hero --- */
+  .hero{
+    max-width:1080px; margin:0 auto; padding:50px 28px 70px;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:50px; align-items:center;
+  }
+  @media (max-width:840px){ .hero{grid-template-columns:1fr; padding-top:20px;} }
+  .tag-strip{
+    display:inline-block; font-size:14px; color:var(--ink-soft);
+    border-bottom:1px dashed var(--line); padding-bottom:6px; margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5vw, 52px);
+    line-height:1.1;
+    font-weight:700;
+  }
+  .hero h1 .u{
+    text-decoration: underline;
+    text-decoration-color: var(--marker);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+  }
+  .hero p.lede{
+    margin-top:20px; font-size:17px; color:var(--ink-soft); max-width:48ch;
+  }
+  .hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Space Grotesk'; font-weight:600; font-size:15px;
+    padding:13px 22px; border-radius:3px; text-decoration:none;
+    display:inline-block; cursor:pointer; border:2px solid var(--ink);
+  }
+  .btn-solid{background:var(--ink); color:var(--paper);}
+  .btn-solid:hover{background:var(--marker); border-color:var(--marker);}
+  .btn-ghost{background:transparent; color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--marker); color:var(--marker);}
+
+  .hero-note{
+    background:var(--sticky);
+    padding:26px 24px;
+    transform:rotate(2deg);
+    box-shadow: var(--card-shadow);
+    font-family:'Space Grotesk';
+    position:relative;
+  }
+  .hero-note::before{
+    content:"";
+    position:absolute; top:-10px; left:24px;
+    width:46px; height:16px; background:rgba(34,49,74,0.12);
+    transform:rotate(-6deg);
+  }
+  .hero-note .hn-label{font-size:12px; color:var(--ink-soft); font-family:'IBM Plex Sans'; text-transform:none;}
+  .hero-note .hn-score{font-size:52px; font-weight:700; margin-top:4px;}
+  .hero-note .hn-detail{font-size:14px; font-family:'IBM Plex Sans'; color:var(--ink-soft); margin-top:10px;}
+
+  section{padding:60px 0;}
+  .section-head{max-width:56ch; margin-bottom:38px;}
+  .section-head .kicker{font-family:'Caveat'; font-size:22px; color:var(--marker); margin-bottom:2px; display:block;}
+  .section-head h2{font-size:clamp(26px,3.4vw,34px);}
+  .section-head p{color:var(--ink-soft); margin-top:10px; font-size:15.5px;}
+
+  /* --- how it works: day tabs --- */
+  .days{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:760px){ .days{grid-template-columns:1fr;} }
+  .day-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-top:6px solid var(--sage);
+    padding:26px 22px;
+  }
+  .day-card:nth-child(2){border-top-color:var(--marker);}
+  .day-card:nth-child(3){border-top-color:var(--ink);}
+  .day-tag{font-family:'Space Grotesk'; font-size:13px; letter-spacing:0.03em; color:var(--ink-soft);}
+  .day-card h3{margin-top:10px; font-size:19px;}
+  .day-card p{color:var(--ink-soft); font-size:14.5px; margin-top:8px;}
+
+  /* --- corkboard features --- */
+  .cork{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+  }
+  .cork-inner{padding:60px 28px;}
+  .pins{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:26px;
+    max-width:1080px; margin:0 auto;
+  }
+  @media (max-width:840px){ .pins{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .pins{grid-template-columns:1fr;} }
+  .pin-card{
+    background:var(--paper);
+    padding:22px 20px 24px;
+    box-shadow:var(--card-shadow);
+    position:relative;
+  }
+  .pin-card:nth-child(odd){transform:rotate(-1.4deg);}
+  .pin-card:nth-child(even){transform:rotate(1.2deg);}
+  .pin-dot{
+    width:10px;height:10px;border-radius:50%; background:var(--marker);
+    position:absolute; top:-5px; left:50%; margin-left:-5px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.3);
+  }
+  .pin-card h3{font-size:17px;}
+  .pin-card p{font-size:14px; color:var(--ink-soft); margin-top:8px;}
+
+  /* --- readiness demo --- */
+  .demo{
+    display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;
+  }
+  @media (max-width:820px){ .demo{grid-template-columns:1fr;} }
+  .skill-list{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:10px;}
+  .skill-list li{
+    border:1.5px solid var(--line); padding:9px 14px; font-size:14px;
+    border-radius:20px; cursor:pointer; user-select:none;
+    font-family:'Space Grotesk'; font-weight:500;
+    background:var(--paper);
+  }
+  .skill-list li.on{
+    background:var(--sage-soft); border-color:var(--sage); color:var(--ink);
+  }
+  .demo-panel{
+    background:var(--ink); color:var(--paper);
+    padding:30px; position:relative;
+  }
+  .demo-panel .dp-label{font-size:13px; color:#B9C4D6;}
+  .demo-panel .dp-score{font-family:'Space Grotesk'; font-size:56px; font-weight:700; margin-top:6px;}
+  .bar-track{height:10px; background:rgba(255,255,255,0.15); margin-top:16px; border-radius:6px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--marker); width:0%; transition:width .4s ease;}
+  .dp-missing{margin-top:20px; font-size:13.5px; color:#C7D0DE;}
+  .dp-missing b{color:var(--paper); display:block; margin-bottom:6px; font-family:'Space Grotesk'; font-size:13px;}
+  .role-select{margin-bottom:18px; display:flex; gap:8px; flex-wrap:wrap;}
+  .role-chip{
+    font-size:13px; padding:6px 12px; border:1.5px solid var(--line); border-radius:20px; cursor:pointer;
+    font-family:'Space Grotesk';
+  }
+  .role-chip.active{background:var(--marker); border-color:var(--marker); color:#fff;}
+
+  /* --- branches / tabs --- */
+  .binder-tabs{display:flex; flex-wrap:wrap; gap:10px;}
+  .binder-tab{
+    padding:9px 16px; border:1px solid var(--line); border-bottom:none;
+    font-size:13.5px; font-family:'Space Grotesk'; background:var(--paper-2);
+    border-radius:6px 6px 0 0;
+  }
+
+  footer{
+    border-top:1px solid var(--line); margin-top:20px;
+    padding:40px 0 60px;
+  }
+  .footer-row{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px;}
+  .footer-note{font-size:13.5px; color:var(--ink-soft); max-width:44ch;}
+  .footer-signoff{font-family:'Caveat'; font-size:24px; color:var(--marker);}
+
+  .badge-line{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;}
+  .badge{
+    font-size:12.5px; font-family:'Space Grotesk'; padding:5px 11px;
+    border:1px solid var(--line); border-radius:20px; color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<div class="rail" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-name">PathNotes</div>
+  </div>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#features">What's inside</a>
+    <a href="#try">Try the score</a>
+    <a href="#branches">Branches</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <span class="tag-strip">A final-year project · built for engineering students in India</span>
+      <h1>Your internship search, <span class="u">written down and planned out.</span></h1>
+      <p class="lede">Most students track internships across six browser tabs and a half-finished spreadsheet. PathNotes puts your skills, your gaps, and your next step on one page — like a planner you actually keep open.</p>
+      <div class="hero-cta">
+        <a href="#try" class="btn btn-solid">See your readiness score</a>
+        <a href="#how" class="btn btn-ghost">How it works</a>
+      </div>
+      <div class="badge-line">
+        <span class="badge">Skill matching</span>
+        <span class="badge">Gap analysis</span>
+        <span class="badge">Weekly roadmap</span>
+        <span class="badge">Resume check</span>
+      </div>
+    </div>
+    <div class="hero-note">
+      <div class="hn-label">Sample student — Sem 5, CSE</div>
+      <div class="hn-score">64%</div>
+      <div class="hn-detail">Ready for SDE Intern roles. Missing: Git workflows, one DSA topic, a deployed project.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="how">
+  <section>
+    <div class="section-head">
+      <span class="kicker">the plan, page by page</span>
+      <h2>Three pages, in order</h2>
+      <p>No dashboards to figure out first. You fill in one page, then the next unlocks what it needs.</p>
+    </div>
+    <div class="days">
+      <div class="day-card">
+        <div class="day-tag">PAGE ONE</div>
+        <h3>Where you're starting</h3>
+        <p>Branch, semester, the skills you already have, and how many hours a week you can actually give this. No guessing on our end.</p>
+      </div>
+      <div class="day-card">
+        <div class="day-tag">PAGE TWO</div>
+        <h3>Where you stand</h3>
+        <p>Your skills checked against real role requirements — not keyword matching, so "JS" and "JavaScript" count the same. Out comes a readiness score and the gaps behind it.</p>
+      </div>
+      <div class="day-card">
+        <div class="day-tag">PAGE THREE</div>
+        <h3>What to do next</h3>
+        <p>A week-by-week list built only from what you're missing — small tasks, one mini-project, and internships that match what you've got today.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="cork" id="features">
+  <div class="cork-inner">
+    <div class="wrap" style="padding:0;">
+      <div class="section-head">
+        <span class="kicker">what's inside</span>
+        <h2>Six pages that talk to each other</h2>
+        <p>Change your skills on page one, and your score, gaps, and roadmap all update — nothing to re-enter twice.</p>
+      </div>
+      <div class="pins">
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Skill matching</h3>
+          <p>Reads your skills the way a person would — "React" and "ReactJS" aren't treated as strangers.</p>
+        </div>
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Readiness score</h3>
+          <p>One number per role, built from your skills, projects, and DSA practice, each weighted differently.</p>
+        </div>
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Weekly roadmap</h3>
+          <p>Tasks, a small project, and a couple of resources each week — sized to the hours you said you have.</p>
+        </div>
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Internship feed</h3>
+          <p>A pulled-together list from a few sources, filtered down to roles your current skills are close to.</p>
+        </div>
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Resume check</h3>
+          <p>Paste your resume text and get a plain read on keyword match and which sections are thin.</p>
+        </div>
+        <div class="pin-card"><span class="pin-dot"></span>
+          <h3>Application tracker</h3>
+          <p>Applied, OA, interview, offer — one line per application instead of a scattered spreadsheet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="try">
+  <section>
+    <div class="section-head">
+      <span class="kicker">try page two</span>
+      <h2>Tick what you know</h2>
+      <p>A stripped-down version of the real matcher — pick a role, tick your skills, watch the score move.</p>
+    </div>
+
+    <div class="role-select">
+      <span class="role-chip active" data-role="sde">SDE Intern</span>
+      <span class="role-chip" data-role="ds">Data Science Intern</span>
+      <span class="role-chip" data-role="web">Web Dev Intern</span>
+    </div>
+
+    <div class="demo">
+      <div>
+        <ul class="skill-list" id="skillList"></ul>
+      </div>
+      <div class="demo-panel">
+        <div class="dp-label">Readiness for this role</div>
+        <div class="dp-score" id="dpScore">0%</div>
+        <div class="bar-track"><div class="bar-fill" id="dpBar"></div></div>
+        <div class="dp-missing">
+          <b>Still missing</b>
+          <span id="dpMissing">Tick a few skills to see your gaps.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="branches">
+  <section>
+    <div class="section-head">
+      <span class="kicker">built for every branch</span>
+      <h2>Not just CSE</h2>
+      <p>The role library covers software-adjacent tracks across engineering, from core branches to newer ones.</p>
+    </div>
+    <div class="binder-tabs">
+      <span class="binder-tab">CSE</span>
+      <span class="binder-tab">ECE</span>
+      <span class="binder-tab">EEE</span>
+      <span class="binder-tab">Mechanical</span>
+      <span class="binder-tab">Civil</span>
+      <span class="binder-tab">AI & ML</span>
+      <span class="binder-tab">Data Science</span>
+      <span class="binder-tab">IoT</span>
+      <span class="binder-tab">Cyber Security</span>
+      <span class="binder-tab">Robotics</span>
+      <span class="binder-tab">Information Science</span>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <footer>
+    <div class="footer-row">
+      <div>
+        <div class="footer-signoff">— built as a college project, not a live product</div>
+        <p class="footer-note">PathNotes is a final-year submission exploring skill-matching and career guidance for engineering students. Internship data, scores, and roadmaps on this page are sample content for demonstration.</p>
+      </div>
+      <div class="footer-note">© 2026 PathNotes<br>Made by a student, for students.</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const roleData = {
+    sde: {
+      skills: ["Python","Java","C++","DSA","Git","REST APIs","SQL","OOP","Linux basics","Problem solving"],
+      label: "SDE Intern"
+    },
+    ds: {
+      skills: ["Python","Pandas","NumPy","SQL","Statistics","Machine Learning","Data Visualization","Excel","Scikit-learn","Storytelling with data"],
+      label: "Data Science Intern"
+    },
+    web: {
+      skills: ["HTML/CSS","JavaScript","React","Node.js","Git","REST APIs","SQL","Responsive design","Basic deployment","Debugging"],
+      label: "Web Dev Intern"
+    }
+  };
+
+  let currentRole = "sde";
+  let checked = new Set();
+
+  const skillListEl = document.getElementById("skillList");
+  const scoreEl = document.getElementById("dpScore");
+  const barEl = document.getElementById("dpBar");
+  const missingEl = document.getElementById("dpMissing");
+
+  function renderSkills(){
+    skillListEl.innerHTML = "";
+    checked = new Set();
+    roleData[currentRole].skills.forEach(skill => {
+      const li = document.createElement("li");
+      li.textContent = skill;
+      li.addEventListener("click", () => {
+        li.classList.toggle("on");
+        if(checked.has(skill)) checked.delete(skill); else checked.add(skill);
+        updateScore();
+      });
+      skillListEl.appendChild(li);
+    });
+    updateScore();
+  }
+
+  function updateScore(){
+    const total = roleData[currentRole].skills.length;
+    const have = checked.size;
+    const pct = total ? Math.round((have/total)*100) : 0;
+    scoreEl.textContent = pct + "%";
+    barEl.style.width = pct + "%";
+    const missing = roleData[currentRole].skills.filter(s => !checked.has(s));
+    missingEl.textContent = missing.length
+      ? missing.slice(0,4).join(", ") + (missing.length > 4 ? `, +${missing.length-4} more` : "")
+      : "Nothing — you're matched on every listed skill.";
+  }
+
+  document.querySelectorAll(".role-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".role-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentRole = chip.dataset.role;
+      renderSkills();
+    });
+  });
+
+  renderSkills();
+</script>
+
+</body>
+</html>

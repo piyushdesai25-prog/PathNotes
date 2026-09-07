@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — PathNotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<button class="mobile-nav-toggle" id="navToggle">☰ Menu</button>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">P</div>
+      <div class="brand-name">PathNotes</div>
+    </div>
+    <div class="sidebar-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <ul class="nav-list">
+      <li><a href="dashboard.html" class="active"><span class="dot"></span>Dashboard</a></li>
+      <li><a href="#skills"><span class="dot"></span>My Skills</a></li>
+      <li><a href="#paths"><span class="dot"></span>Career Paths</a></li>
+      <li><a href="#roadmap"><span class="dot"></span>Learning Roadmap</a></li>
+      <li><a href="#internships"><span class="dot"></span>Internships</a></li>
+      <li><a href="#resume"><span class="dot"></span>Resume Analyzer</a></li>
+      <li><a href="#tracker"><span class="dot"></span>Application Tracker</a></li>
+      <li><a href="#profile"><span class="dot"></span>Profile</a></li>
+      <li><a href="#settings"><span class="dot"></span>Settings</a></li>
+    </ul>
+    <div class="sidebar-foot">
+      <a href="onboarding.html">Edit my profile answers</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-inner" id="mainInner">
+
+      <!-- Filled by JS when no onboarding data exists -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <h2>No career profile yet</h2>
+        <p>Your dashboard is built from your onboarding answers. Fill those in first and this page will personalize itself.</p>
+        <a href="onboarding.html" class="btn">Start onboarding</a>
+      </div>
+
+      <div id="dashboardContent" style="display:none;">
+
+        <div class="page-head">
+          <div>
+            <h1 id="welcomeHeading">Welcome back</h1>
+            <div class="meta-row" id="metaRow"></div>
+          </div>
+          <div class="profile-chip">
+            <span class="avatar" id="avatarInitial">?</span>
+            <span id="profileChipName">—</span>
+          </div>
+        </div>
+
+        <!-- READINESS SCORE -->
+        <section class="panel" id="readiness">
+          <div class="panel-head">
+            <span class="kicker">page one of your dashboard</span>
+            <h2>Career readiness</h2>
+          </div>
+          <div class="card readiness-grid">
+            <div class="ring-wrap">
+              <svg width="190" height="190" viewBox="0 0 190 190">
+                <circle class="ring-bg" cx="95" cy="95" r="82"></circle>
+                <circle class="ring-fill" id="ringFill" cx="95" cy="95" r="82"></circle>
+              </svg>
+              <div class="ring-center">
+                <div class="pct" id="readinessPct">0%</div>
+                <div class="lbl">career ready</div>
+              </div>
+            </div>
+            <div class="readiness-copy">
+              <p id="readinessBlurb">Your readiness score blends your skills, projects, and self-rated preparation against the roles you're aiming for.</p>
+              <div class="badge-line" id="readinessBadges"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CAREER PATHS -->
+        <section class="panel" id="paths">
+          <div class="panel-head">
+            <span class="kicker">based on your interests</span>
+            <h2>Recommended career paths</h2>
+          </div>
+          <div class="path-list" id="pathList"></div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="panel" id="skills">
+          <div class="panel-head">
+            <span class="kicker">page three</span>
+            <h2>Skill analysis</h2>
+          </div>
+          <div class="card skills-grid">
+            <div class="skill-block have">
+              <h3>Skills you have</h3>
+              <div class="tag-list" id="haveSkills"></div>
+            </div>
+            <div class="skill-block gap">
+              <h3>Skills to improve</h3>
+              <div class="tag-list" id="gapSkills"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ROADMAP -->
+        <section class="panel" id="roadmap">
+          <div class="panel-head">
+            <span class="kicker">built from your gaps</span>
+            <h2>Your 4-week roadmap</h2>
+          </div>
+          <div class="card roadmap" id="roadmapList"></div>
+        </section>
+
+        <!-- INTERNSHIP READINESS -->
+        <section class="panel" id="internships">
+          <div class="panel-head">
+            <span class="kicker">page six</span>
+            <h2>Internship readiness</h2>
+          </div>
+          <div class="card bars" id="readinessBars"></div>
+        </section>
+
+        <!-- RECOMMENDED ACTIONS -->
+        <section class="panel" id="actions">
+          <div class="panel-head">
+            <span class="kicker">do these next</span>
+            <h2>Recommended actions</h2>
+          </div>
+          <div class="pins" id="actionCards"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+:root{
+  --paper: #FAF6EC;
+  --paper-2: #F1EAD9;
+  --ink: #22314A;
+  --ink-soft: #4B5A73;
+  --line: #D8CDB4;
+  --marker: #E85D2D;
+  --marker-soft: #FCE0D1;
+  --sticky: #FFD866;
+  --sage: #8FAE8B;
+  --sage-soft: #E4EEE1;
+  --error: #C2452B;
+  --error-soft: #F6DCD4;
+  --card-shadow: 2px 3px 0 rgba(34,49,74,0.14);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image: radial-gradient(circle, rgba(34,49,74,0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3{font-family:'Space Grotesk', sans-serif; color:var(--ink); margin:0; letter-spacing:-0.01em;}
+.hand{font-family:'Caveat', cursive;}
+a{color:inherit; text-decoration:none;}
+
+/* ---------- layout shell ---------- */
+.app-shell{display:flex; min-height:100vh;}
+
+/* ---------- sidebar ---------- */
+.sidebar{
+  width:230px; flex-shrink:0;
+  background:var(--paper-2);
+  border-right:1px solid var(--line);
+  display:flex; flex-direction:column;
+  padding:22px 0;
+  position:sticky; top:0; height:100vh;
+}
+.sidebar-brand{display:flex; align-items:center; gap:10px; padding:0 20px 22px; border-bottom:1px solid var(--line); margin-bottom:14px;}
+.brand-mark{
+  width:32px;height:32px; background:var(--ink); color:var(--paper);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk'; font-weight:700; font-size:15px;
+  transform:rotate(-4deg); border-radius:4px; flex-shrink:0;
+}
+.brand-name{font-family:'Space Grotesk'; font-weight:700; font-size:17px;}
+
+.sidebar-dots{display:flex; gap:6px; padding:0 20px 16px;}
+.sidebar-dots span{width:8px;height:8px;border-radius:50%; background:var(--paper); border:2px solid var(--line);}
+
+.nav-list{list-style:none; margin:0; padding:0; flex:1;}
+.nav-list li a{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 20px; font-family:'Space Grotesk'; font-size:14.5px; color:var(--ink-soft);
+  border-left:3px solid transparent;
+}
+.nav-list li a:hover{color:var(--ink); background:rgba(232,93,45,0.06);}
+.nav-list li a.active{color:var(--ink); border-left-color:var(--marker); background:var(--paper); font-weight:600;}
+.nav-list li a .dot{width:6px;height:6px;border-radius:50%; background:currentColor; opacity:.55;}
+
+.sidebar-foot{padding:16px 20px 0; border-top:1px solid var(--line); margin-top:10px;}
+.sidebar-foot a{font-size:13px; color:var(--ink-soft); border-bottom:1px dashed var(--line);}
+.sidebar-foot a:hover{color:var(--marker); border-color:var(--marker);}
+
+@media (max-width:900px){
+  .sidebar{position:fixed; left:-230px; z-index:20; transition:left .25s ease; box-shadow:4px 0 14px rgba(0,0,0,0.12);}
+  .sidebar.open{left:0;}
+  .mobile-nav-toggle{display:flex;}
+}
+
+.mobile-nav-toggle{
+  display:none; align-items:center; gap:8px;
+  position:fixed; top:16px; left:16px; z-index:21;
+  background:var(--ink); color:var(--paper); border:none; border-radius:4px;
+  padding:9px 12px; font-family:'Space Grotesk'; font-size:13px; cursor:pointer;
+}
+
+/* ---------- main content ---------- */
+.main{flex:1; min-width:0; padding:32px clamp(20px,4vw,48px) 80px;}
+.main-inner{max-width:1040px; margin:0 auto;}
+
+.page-head{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:30px;}
+.page-head h1{font-size:clamp(24px,3vw,30px);}
+.page-head .sub{color:var(--ink-soft); font-size:14.5px; margin-top:6px;}
+.profile-chip{
+  display:flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--line);
+  padding:9px 14px; border-radius:20px; font-family:'Space Grotesk'; font-size:13.5px;
+}
+.profile-chip .avatar{
+  width:26px;height:26px;border-radius:50%; background:var(--marker); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+}
+
+.meta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;}
+.meta-pill{
+  font-family:'Space Grotesk'; font-size:13px; padding:7px 13px; border:1px solid var(--line);
+  border-radius:20px; color:var(--ink-soft); background:var(--paper);
+}
+
+section.panel{margin-bottom:36px;}
+.panel-head{margin-bottom:16px;}
+.panel-head .kicker{font-family:'Caveat'; font-size:20px; color:var(--marker); display:block;}
+.panel-head h2{font-size:21px; margin-top:2px;}
+
+/* ---------- card base ---------- */
+.card{
+  background:var(--paper); border:1px solid var(--line); box-shadow:var(--card-shadow);
+  padding:24px;
+}
+
+/* ---------- readiness score ---------- */
+.readiness-grid{display:grid; grid-template-columns:220px 1fr; gap:34px; align-items:center;}
+@media (max-width:680px){ .readiness-grid{grid-template-columns:1fr; justify-items:center; text-align:center;} }
+.ring-wrap{position:relative; width:190px; height:190px;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{fill:none; stroke:var(--line); stroke-width:14;}
+.ring-fill{fill:none; stroke:var(--marker); stroke-width:14; stroke-linecap:round; transition:stroke-dashoffset 1s ease;}
+.ring-center{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.ring-center .pct{font-family:'Space Grotesk'; font-size:38px; font-weight:700;}
+.ring-center .lbl{font-size:12.5px; color:var(--ink-soft);}
+.readiness-copy p{color:var(--ink-soft); font-size:14.5px; margin:0 0 14px;}
+.readiness-copy .badge-line{display:flex; gap:10px; flex-wrap:wrap;}
+.badge{font-size:12.5px; font-family:'Space Grotesk'; padding:5px 11px; border:1px solid var(--line); border-radius:20px; color:var(--ink-soft);}
+
+/* ---------- career paths ---------- */
+.path-list{display:flex; flex-direction:column; gap:14px;}
+.path-row{
+  display:flex; align-items:center; gap:16px; padding:16px 18px;
+  border:1px solid var(--line); background:var(--paper);
+}
+.path-rank{
+  font-family:'Space Grotesk'; font-weight:700; font-size:15px; color:var(--ink-soft);
+  width:22px; flex-shrink:0;
+}
+.path-info{flex:1; min-width:0;}
+.path-info .name{font-family:'Space Grotesk'; font-size:15.5px; font-weight:600;}
+.path-info .why{font-size:13px; color:var(--ink-soft); margin-top:3px;}
+.path-score{width:150px; flex-shrink:0;}
+@media (max-width:640px){ .path-row{flex-wrap:wrap;} .path-score{width:100%;} }
+.path-score .pct-label{font-family:'Space Grotesk'; font-size:13.5px; margin-bottom:5px; text-align:right;}
+.mini-bar{height:8px; background:var(--paper-2); border-radius:5px; overflow:hidden; border:1px solid var(--line);}
+.mini-bar .fill{height:100%; background:var(--sage);}
+
+/* ---------- skills ---------- */
+.skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+@media (max-width:680px){ .skills-grid{grid-template-columns:1fr;} }
+.skill-block h3{font-size:15px; margin-bottom:12px;}
+.skill-block.have h3{color:var(--sage);}
+.skill-block.gap h3{color:var(--error);}
+.tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{font-family:'Space Grotesk'; font-size:13px; padding:7px 12px; border-radius:16px;}
+.tag.have{background:var(--sage-soft); border:1px solid var(--sage);}
+.tag.gap{background:var(--error-soft); border:1px solid var(--error); color:#7a2a19;}
+.empty-note{font-size:13.5px; color:var(--ink-soft); font-style:italic;}
+
+/* ---------- roadmap ---------- */
+.roadmap{display:flex; flex-direction:column; gap:0;}
+.roadmap-item{
+  display:flex; gap:18px; padding:18px 0; border-bottom:1px solid var(--line);
+}
+.roadmap-item:last-child{border-bottom:none;}
+.roadmap-week{
+  flex-shrink:0; width:78px; font-family:'Space Grotesk'; font-weight:700; font-size:14px;
+  color:var(--marker);
+}
+.roadmap-body h3{font-size:15.5px; margin-bottom:5px;}
+.roadmap-body p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+
+/* ---------- internship readiness bars ---------- */
+.bars{display:flex; flex-direction:column; gap:16px;}
+.bar-row .bar-top{display:flex; justify-content:space-between; font-family:'Space Grotesk'; font-size:13.5px; margin-bottom:6px;}
+.bar-row .bar-top .val{color:var(--ink-soft);}
+.bar-track{height:9px; background:var(--paper-2); border-radius:6px; overflow:hidden; border:1px solid var(--line);}
+.bar-track .fill{height:100%; background:var(--marker);}
+.bar-row.overall .bar-top{font-weight:700;}
+.bar-row.overall .bar-track .fill{background:var(--ink);}
+
+/* ---------- action cards ---------- */
+.pins{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+@media (max-width:680px){ .pins{grid-template-columns:1fr;} }
+.pin-card{background:var(--paper); border:1px solid var(--line); box-shadow:var(--card-shadow); padding:18px 20px; position:relative;}
+.pin-card:nth-child(odd){transform:rotate(-.8deg);}
+.pin-card:nth-child(even){transform:rotate(.8deg);}
+.pin-dot{width:9px;height:9px;border-radius:50%; background:var(--marker); position:absolute; top:-5px; left:22px; box-shadow:0 1px 2px rgba(0,0,0,0.3);}
+.pin-card h3{font-size:15px; margin-bottom:6px;}
+.pin-card p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+.pin-card .go{display:inline-block; margin-top:10px; font-family:'Space Grotesk'; font-size:13px; color:var(--marker); border-bottom:1px dashed var(--marker);}
+
+.empty-state{
+  text-align:center; padding:60px 20px; max-width:420px; margin:60px auto;
+}
+.empty-state h2{margin-bottom:10px;}
+.empty-state p{color:var(--ink-soft); font-size:14.5px; margin-bottom:22px;}
+.btn{
+  font-family:'Space Grotesk'; font-weight:600; font-size:14.5px;
+  padding:12px 20px; border-radius:3px; display:inline-block; cursor:pointer;
+  border:2px solid var(--ink); background:var(--ink); color:var(--paper);
+}
+.btn:hover{background:var(--marker); border-color:var(--marker);}
