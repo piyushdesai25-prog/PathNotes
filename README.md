@@ -1,3 +1,5 @@
+<div align="center">
+
 # 🧭 PathNotes
 
 ### *Stop guessing. Start knowing.*
@@ -9,6 +11,9 @@ An AI-driven, explainable skill-gap and roadmap platform for engineering student
 ![Backend](https://img.shields.io/badge/backend-none%20(localStorage)-lightgrey?style=flat-square)
 ![Made for](https://img.shields.io/badge/made%20for-college%20project-brightgreen?style=flat-square)
 
+</div>
+
+---
 
 PathNotes turns one student profile into a **skill-gap analysis**, a **transparent readiness score**, and a **week-by-week roadmap** — inspired by the product concept of CareerCompass.tech, built from scratch with its own branding, design, and code.
 
@@ -31,12 +36,13 @@ PathNotes turns one student profile into a **skill-gap analysis**, a **transpare
 
 ## 📈 Scale, as actually built
 
+<div align="center">
 
 | 12 | 39 | 29 | 10 | 4 |
 |:---:|:---:|:---:|:---:|:---:|
 | Career roles | Skills tracked | Learning resources | Demo internships | Week roadmap |
 
-
+</div>
 
 ## 🎓 Who it's for
 
