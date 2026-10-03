@@ -1,0 +1,430 @@
+:root{
+  --paper: #FAF6EC;
+  --paper-2: #F1EAD9;
+  --ink: #22314A;
+  --ink-soft: #4B5A73;
+  --line: #D8CDB4;
+  --marker: #E85D2D;
+  --marker-soft: #FCE0D1;
+  --sticky: #FFD866;
+  --sage: #8FAE8B;
+  --sage-soft: #E4EEE1;
+  --error: #C2452B;
+  --error-soft: #F6DCD4;
+  --card-shadow: 2px 3px 0 rgba(34,49,74,0.14);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image: radial-gradient(circle, rgba(34,49,74,0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3{font-family:'Space Grotesk', sans-serif; color:var(--ink); margin:0; letter-spacing:-0.01em;}
+.hand{font-family:'Caveat', cursive;}
+a{color:inherit; text-decoration:none;}
+
+/* ---------- layout shell ---------- */
+.app-shell{display:flex; min-height:100vh;}
+
+/* ---------- sidebar ---------- */
+.sidebar{
+  width:230px; flex-shrink:0;
+  background:var(--paper-2);
+  border-right:1px solid var(--line);
+  display:flex; flex-direction:column;
+  padding:22px 0;
+  position:sticky; top:0; height:100vh;
+}
+.sidebar-brand{display:flex; align-items:center; gap:10px; padding:0 20px 22px; border-bottom:1px solid var(--line); margin-bottom:14px;}
+.brand-mark{
+  width:32px;height:32px; background:var(--ink); color:var(--paper);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk'; font-weight:700; font-size:15px;
+  transform:rotate(-4deg); border-radius:4px; flex-shrink:0;
+}
+.brand-name{font-family:'Space Grotesk'; font-weight:700; font-size:17px;}
+
+.sidebar-dots{display:flex; gap:6px; padding:0 20px 16px;}
+.sidebar-dots span{width:8px;height:8px;border-radius:50%; background:var(--paper); border:2px solid var(--line);}
+
+.nav-list{list-style:none; margin:0; padding:0; flex:1;}
+.nav-list li a{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 20px; font-family:'Space Grotesk'; font-size:14.5px; color:var(--ink-soft);
+  border-left:3px solid transparent;
+}
+.nav-list li a:hover{color:var(--ink); background:rgba(232,93,45,0.06);}
+.nav-list li a.active{color:var(--ink); border-left-color:var(--marker); background:var(--paper); font-weight:600;}
+.nav-list li a .dot{width:6px;height:6px;border-radius:50%; background:currentColor; opacity:.55;}
+
+.sidebar-foot{padding:16px 20px 0; border-top:1px solid var(--line); margin-top:10px;}
+.sidebar-foot a{font-size:13px; color:var(--ink-soft); border-bottom:1px dashed var(--line);}
+.sidebar-foot a:hover{color:var(--marker); border-color:var(--marker);}
+
+@media (max-width:900px){
+  .sidebar{position:fixed; left:-230px; z-index:20; transition:left .25s ease; box-shadow:4px 0 14px rgba(0,0,0,0.12);}
+  .sidebar.open{left:0;}
+  .mobile-nav-toggle{display:flex;}
+}
+
+.mobile-nav-toggle{
+  display:none; align-items:center; gap:8px;
+  position:fixed; top:16px; left:16px; z-index:21;
+  background:var(--ink); color:var(--paper); border:none; border-radius:4px;
+  padding:9px 12px; font-family:'Space Grotesk'; font-size:13px; cursor:pointer;
+}
+
+
+/* ---------- page mode navigation ---------- */
+/* Each sidebar destination is a separate HTML page. Only that page's main panel is shown. */
+body[data-page] .panel { display:none; }
+body[data-page="dashboard"] #readiness,
+body[data-page="dashboard"] #actions { display:block; }
+body[data-page="skills"] #skills { display:block; }
+body[data-page="paths"] #paths { display:block; }
+body[data-page="roadmap"] #roadmap { display:block; }
+body[data-page="internships"] #internships { display:block; }
+body[data-page="resume"] #resume { display:block; }
+body[data-page="tracker"] #tracker { display:block; }
+body[data-page="profile"] #profile { display:block; }
+body[data-page="settings"] #settings { display:block; }
+body[data-page]:not([data-page="dashboard"]) .page-head { margin-bottom:24px; }
+
+/* ---------- main content ---------- */
+.main{flex:1; min-width:0; padding:32px clamp(20px,4vw,48px) 80px;}
+.main-inner{max-width:1040px; margin:0 auto;}
+
+.page-head{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:30px;}
+.page-head h1{font-size:clamp(24px,3vw,30px);}
+.page-head .sub{color:var(--ink-soft); font-size:14.5px; margin-top:6px;}
+.profile-chip{
+  display:flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--line);
+  padding:9px 14px; border-radius:20px; font-family:'Space Grotesk'; font-size:13.5px;
+}
+.profile-chip .avatar{
+  width:26px;height:26px;border-radius:50%; background:var(--marker); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+}
+
+.meta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;}
+.meta-pill{
+  font-family:'Space Grotesk'; font-size:13px; padding:7px 13px; border:1px solid var(--line);
+  border-radius:20px; color:var(--ink-soft); background:var(--paper);
+}
+
+section.panel{margin-bottom:36px;}
+.panel-head{margin-bottom:16px;}
+.panel-head .kicker{font-family:'Caveat'; font-size:20px; color:var(--marker); display:block;}
+.panel-head h2{font-size:21px; margin-top:2px;}
+
+/* ---------- card base ---------- */
+.card{
+  background:var(--paper); border:1px solid var(--line); box-shadow:var(--card-shadow);
+  padding:24px;
+}
+
+/* ---------- readiness score ---------- */
+.readiness-grid{display:grid; grid-template-columns:220px 1fr; gap:34px; align-items:center;}
+@media (max-width:680px){ .readiness-grid{grid-template-columns:1fr; justify-items:center; text-align:center;} }
+.ring-wrap{position:relative; width:190px; height:190px;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{fill:none; stroke:var(--line); stroke-width:14;}
+.ring-fill{fill:none; stroke:var(--marker); stroke-width:14; stroke-linecap:round; transition:stroke-dashoffset 1s ease;}
+.ring-center{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.ring-center .pct{font-family:'Space Grotesk'; font-size:38px; font-weight:700;}
+.ring-center .lbl{font-size:12.5px; color:var(--ink-soft);}
+.readiness-copy p{color:var(--ink-soft); font-size:14.5px; margin:0 0 14px;}
+.readiness-copy .badge-line{display:flex; gap:10px; flex-wrap:wrap;}
+.badge{font-size:12.5px; font-family:'Space Grotesk'; padding:5px 11px; border:1px solid var(--line); border-radius:20px; color:var(--ink-soft);}
+
+/* ---------- career paths ---------- */
+.path-list{display:flex; flex-direction:column; gap:14px;}
+.path-row{
+  display:flex; align-items:center; gap:16px; padding:16px 18px;
+  border:1px solid var(--line); background:var(--paper);
+}
+.path-rank{
+  font-family:'Space Grotesk'; font-weight:700; font-size:15px; color:var(--ink-soft);
+  width:22px; flex-shrink:0;
+}
+.path-info{flex:1; min-width:0;}
+.path-info .name{font-family:'Space Grotesk'; font-size:15.5px; font-weight:600;}
+.path-info .why{font-size:13px; color:var(--ink-soft); margin-top:3px;}
+.path-score{width:150px; flex-shrink:0;}
+@media (max-width:640px){ .path-row{flex-wrap:wrap;} .path-score{width:100%;} }
+.path-score .pct-label{font-family:'Space Grotesk'; font-size:13.5px; margin-bottom:5px; text-align:right;}
+.mini-bar{height:8px; background:var(--paper-2); border-radius:5px; overflow:hidden; border:1px solid var(--line);}
+.mini-bar .fill{height:100%; background:var(--sage);}
+
+/* ---------- skills ---------- */
+.skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+@media (max-width:680px){ .skills-grid{grid-template-columns:1fr;} }
+.skill-block h3{font-size:15px; margin-bottom:12px;}
+.skill-block.have h3{color:var(--sage);}
+.skill-block.gap h3{color:var(--error);}
+.tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{font-family:'Space Grotesk'; font-size:13px; padding:7px 12px; border-radius:16px;}
+.tag.have{background:var(--sage-soft); border:1px solid var(--sage);}
+.tag.gap{background:var(--error-soft); border:1px solid var(--error); color:#7a2a19;}
+.empty-note{font-size:13.5px; color:var(--ink-soft); font-style:italic;}
+
+/* ---------- roadmap ---------- */
+.roadmap{display:flex; flex-direction:column; gap:0;}
+.roadmap-item{
+  display:flex; gap:18px; padding:18px 0; border-bottom:1px solid var(--line);
+}
+.roadmap-item:last-child{border-bottom:none;}
+.roadmap-week{
+  flex-shrink:0; width:78px; font-family:'Space Grotesk'; font-weight:700; font-size:14px;
+  color:var(--marker);
+}
+.roadmap-body h3{font-size:15.5px; margin-bottom:5px;}
+.roadmap-body p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+
+/* ---------- internship readiness bars ---------- */
+.bars{display:flex; flex-direction:column; gap:16px;}
+.bar-row .bar-top{display:flex; justify-content:space-between; font-family:'Space Grotesk'; font-size:13.5px; margin-bottom:6px;}
+.bar-row .bar-top .val{color:var(--ink-soft);}
+.bar-track{height:9px; background:var(--paper-2); border-radius:6px; overflow:hidden; border:1px solid var(--line);}
+.bar-track .fill{height:100%; background:var(--marker);}
+.bar-row.overall .bar-top{font-weight:700;}
+.bar-row.overall .bar-track .fill{background:var(--ink);}
+
+/* ---------- action cards ---------- */
+.pins{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+@media (max-width:680px){ .pins{grid-template-columns:1fr;} }
+.pin-card{background:var(--paper); border:1px solid var(--line); box-shadow:var(--card-shadow); padding:18px 20px; position:relative;}
+.pin-card:nth-child(odd){transform:rotate(-.8deg);}
+.pin-card:nth-child(even){transform:rotate(.8deg);}
+.pin-dot{width:9px;height:9px;border-radius:50%; background:var(--marker); position:absolute; top:-5px; left:22px; box-shadow:0 1px 2px rgba(0,0,0,0.3);}
+.pin-card h3{font-size:15px; margin-bottom:6px;}
+.pin-card p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+.pin-card .go{display:inline-block; margin-top:10px; font-family:'Space Grotesk'; font-size:13px; color:var(--marker); border-bottom:1px dashed var(--marker);}
+
+.empty-state{
+  text-align:center; padding:60px 20px; max-width:420px; margin:60px auto;
+}
+.empty-state h2{margin-bottom:10px;}
+.empty-state p{color:var(--ink-soft); font-size:14.5px; margin-bottom:22px;}
+.btn{
+  font-family:'Space Grotesk'; font-weight:600; font-size:14.5px;
+  padding:12px 20px; border-radius:3px; display:inline-block; cursor:pointer;
+  border:2px solid var(--ink); background:var(--ink); color:var(--paper);
+}
+.btn:hover{background:var(--marker); border-color:var(--marker);}
+.btn-ghost{background:transparent; color:var(--ink);}
+.btn-ghost:hover{border-color:var(--marker); color:var(--marker); background:transparent;}
+.btn-sm{padding:7px 14px; font-size:13px;}
+.btn-danger{background:var(--error); border-color:var(--error); color:#fff;}
+.btn-danger:hover{background:#a3361e; border-color:#a3361e;}
+
+/* ---------- Quick stats ribbon ---------- */
+.stats-ribbon{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:30px;}
+@media (max-width:820px){.stats-ribbon{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:480px){.stats-ribbon{grid-template-columns:1fr;}}
+.stat-box{
+  background:var(--paper); border:1px solid var(--line); padding:16px 18px;
+  box-shadow:var(--card-shadow);
+}
+.stat-box .val{font-family:'Space Grotesk'; font-size:24px; font-weight:700; color:var(--ink);}
+.stat-box .lbl{font-size:12.5px; color:var(--ink-soft); margin-top:4px;}
+
+/* ---------- Modals ---------- */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(34,49,74,0.48); backdrop-filter:blur(2px);
+  z-index:100; display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.modal-card{
+  background:var(--paper); border:2px solid var(--ink); box-shadow:4px 6px 0 rgba(34,49,74,0.18);
+  max-width:540px; width:100%; padding:28px 26px; position:relative; max-height:90vh; overflow-y:auto;
+}
+.modal-card h3{font-size:20px; margin-bottom:10px;}
+.modal-card p{color:var(--ink-soft); font-size:14.5px; margin-bottom:18px;}
+.modal-actions{display:flex; justify-content:flex-end; gap:12px; margin-top:24px;}
+
+/* ---------- Toast Notification ---------- */
+.toast-container{
+  position:fixed; bottom:24px; right:24px; z-index:120;
+  display:flex; flex-direction:column; gap:10px; pointer-events:none;
+}
+.toast{
+  background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:4px;
+  font-family:'Space Grotesk'; font-size:13.5px; box-shadow:0 4px 14px rgba(0,0,0,0.22);
+  animation:slideToast 0.25s ease; pointer-events:auto;
+}
+@keyframes slideToast{
+  from{transform:translateY(16px); opacity:0;}
+  to{transform:translateY(0); opacity:1;}
+}
+
+/* ---------- Internships Explorer ---------- */
+.filter-bar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+.filter-btn{
+  font-family:'Space Grotesk'; font-size:13px; padding:6px 14px; border:1px solid var(--line);
+  background:var(--paper); border-radius:20px; cursor:pointer; color:var(--ink-soft);
+}
+.filter-btn.active, .filter-btn:hover{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.internship-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:16px;}
+@media (max-width:760px){.internship-grid{grid-template-columns:1fr;}}
+.internship-card{
+  background:var(--paper); border:1px solid var(--line); box-shadow:var(--card-shadow);
+  padding:20px; display:flex; flex-direction:column; justify-content:space-between;
+}
+.internship-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+.internship-title{font-family:'Space Grotesk'; font-weight:700; font-size:16px; color:var(--ink);}
+.internship-company{font-size:13.5px; color:var(--ink-soft); margin-top:2px;}
+.match-badge{
+  font-family:'Space Grotesk'; font-size:12px; font-weight:700; padding:4px 9px;
+  border-radius:12px; background:var(--sage-soft); color:#2b572a; border:1px solid var(--sage); flex-shrink:0;
+}
+.match-badge.moderate{background:#FFF4D9; border-color:#E2C06B; color:#7A5700;}
+.internship-details{display:flex; gap:14px; font-size:12.5px; color:var(--ink-soft); margin:12px 0 14px; flex-wrap:wrap;}
+.internship-skills{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+.internship-actions{display:flex; gap:10px; margin-top:auto;}
+
+/* ---------- Resume Analyzer ---------- */
+.resume-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:24px;}
+@media (max-width:820px){.resume-grid{grid-template-columns:1fr;}}
+.resume-textarea{
+  width:100%; height:220px; border:1px solid var(--line); background:var(--paper);
+  padding:14px; font-family:'IBM Plex Sans', monospace; font-size:13.5px; resize:vertical; outline:none;
+}
+.resume-textarea:focus{border-color:var(--marker);}
+.checklist-item{display:flex; align-items:center; gap:8px; font-size:13.5px; margin-bottom:8px;}
+.checklist-item.pass{color:var(--sage); font-weight:600;}
+.checklist-item.fail{color:var(--ink-soft);}
+
+/* ---------- Application Tracker ---------- */
+.tracker-summary{display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
+.tracker-summary-pill{
+  font-family:'Space Grotesk'; font-size:13px; padding:6px 12px; border-radius:16px;
+  background:var(--paper-2); border:1px solid var(--line); color:var(--ink);
+}
+.tracker-table-wrap{overflow-x:auto; margin-top:16px;}
+.tracker-table{width:100%; border-collapse:collapse; text-align:left; font-size:13.5px;}
+.tracker-table th, .tracker-table td{padding:12px 14px; border-bottom:1px solid var(--line);}
+.tracker-table th{font-family:'Space Grotesk'; font-size:13px; color:var(--ink-soft); background:var(--paper-2);}
+.status-pill{
+  font-family:'Space Grotesk'; font-size:12px; font-weight:600; padding:4px 9px;
+  border-radius:12px; display:inline-block; border:1px solid transparent;
+}
+.status-Wishlist{background:var(--paper-2); border-color:var(--line); color:var(--ink-soft);}
+.status-Applied{background:var(--marker-soft); border-color:var(--marker); color:var(--marker);}
+.status-OA{background:#FFF4D9; border-color:#E2C06B; color:#7A5700;}
+.status-Interview{background:var(--sage-soft); border-color:var(--sage); color:#2B572A;}
+.status-Offer{background:#2B572A; color:#fff;}
+.status-Rejected{background:var(--error-soft); border-color:var(--error); color:var(--error);}
+
+/* ---------- Roadmap Checkbox ---------- */
+.roadmap-check-label{
+  display:flex; align-items:center; gap:8px; font-family:'Space Grotesk';
+  font-size:12.5px; cursor:pointer; margin-top:8px; color:var(--ink-soft);
+}
+.roadmap-check-label input{cursor:pointer; accent-color:var(--marker); width:16px; height:16px;}
+.roadmap-item.completed{opacity:0.75;}
+.roadmap-item.completed h3{text-decoration:line-through; text-decoration-color:var(--sage);}
+.roadmap-progress-bar{height:6px; background:var(--paper-2); border-radius:4px; overflow:hidden; border:1px solid var(--line); margin-bottom:18px;}
+.roadmap-progress-fill{height:100%; background:var(--sage); transition:width .3s ease;}
+
+/* ---------- Inline skill add ---------- */
+.add-skill-inline{display:flex; gap:8px; margin-top:14px;}
+.add-skill-inline input{
+  border:1px solid var(--line); background:transparent; padding:6px 12px;
+  font-size:13px; border-radius:3px; outline:none; font-family:'IBM Plex Sans';
+}
+.add-skill-inline input:focus{border-color:var(--marker);}
+.tag-remove{margin-left:6px; cursor:pointer; font-weight:bold; opacity:0.6;}
+.tag-remove:hover{opacity:1; color:var(--error);}
+
+/* ---------- Profile & Projects ---------- */
+.profile-details-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+@media (max-width:680px){.profile-details-grid{grid-template-columns:1fr;}}
+.profile-field-item{border-bottom:1px dashed var(--line); padding-bottom:8px;}
+.profile-field-item .lbl{font-family:'Space Grotesk'; font-size:12.5px; color:var(--ink-soft);}
+.profile-field-item .val{font-size:14.5px; font-weight:500; margin-top:3px;}
+.project-card-item{
+  border:1px solid var(--line); background:var(--paper-2); padding:16px;
+  margin-bottom:12px; position:relative;
+}
+.project-card-actions{position:absolute; top:12px; right:14px; display:flex; gap:10px;}
+.project-action-btn{
+  font-family:'Space Grotesk'; font-size:12px; color:var(--ink-soft);
+  cursor:pointer; border-bottom:1px dashed var(--line);
+}
+.project-action-btn:hover{color:var(--marker);}
+.project-action-btn.del:hover{color:var(--error); border-color:var(--error);}
+
+/* ---------- Settings & Danger Zone ---------- */
+.settings-section{display:flex; flex-direction:column; gap:20px;}
+.danger-zone{
+  border:1.5px dashed var(--error); padding:20px; background:var(--error-soft); border-radius:4px;
+}
+.danger-zone h3{color:var(--error); margin-bottom:6px;}
+.danger-zone p{font-size:13.5px; color:var(--ink); margin-bottom:14px;}
+
+
+/* ---------- Internship workbench ---------- */
+.internship-workbench{margin-top:26px}
+.external-source-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 18px}
+.source-card{display:flex;flex-direction:column;gap:2px;background:var(--paper-2);border:1px solid var(--line);padding:13px 14px;text-decoration:none;transition:.18s ease}
+.source-card:hover{border-color:var(--marker);transform:translateY(-2px);box-shadow:var(--card-shadow)}
+.source-card b{font-family:'Space Grotesk';font-size:13px}.source-card span{font-size:11.5px;color:var(--ink-soft)}
+.add-internship-card{padding:22px;margin-top:10px}
+.add-internship-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
+.add-internship-head h3{font-size:17px}.add-internship-head p{font-size:12.5px;color:var(--ink-soft);margin:4px 0 0;max-width:70ch}
+.safe-badge{font-family:'Space Grotesk';font-size:11px;padding:5px 9px;border:1px solid var(--sage);background:var(--sage-soft);border-radius:14px;white-space:nowrap}
+.internship-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.internship-form-grid .field{display:flex;flex-direction:column;gap:5px}.internship-form-grid .field.full{grid-column:1/-1}
+.internship-form-grid label{font-family:'Space Grotesk';font-size:12px;font-weight:600}.internship-form-grid input,.internship-form-grid textarea{width:100%;border:1px solid var(--line);background:var(--paper);padding:10px 11px;font:13px 'IBM Plex Sans';outline:none;border-radius:3px;color:var(--ink)}
+.internship-form-grid input:focus,.internship-form-grid textarea:focus{border-color:var(--marker)}
+.internship-form-grid small{font-size:11px;color:var(--ink-soft)}
+.add-internship-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px}.add-internship-actions span{font-size:11.5px;color:var(--ink-soft)}
+.saved-internships-block{margin-top:30px}.compact-head{margin-bottom:12px}
+.saved-internship-card{position:relative}.saved-internship-card .internship-source{font-size:11.5px;color:var(--marker);font-family:'Space Grotesk';margin-top:7px}
+.saved-internship-card .deadline{font-size:12px;color:var(--ink-soft)}
+.saved-internship-card.expired{opacity:.72}.saved-internship-card.expired .deadline{color:var(--error);font-weight:600}
+.saved-internship-card .saved-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:900px){.external-source-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.external-source-grid,.internship-form-grid{grid-template-columns:1fr}.internship-form-grid .field.full{grid-column:auto}.add-internship-head{flex-direction:column}.saved-internship-card .internship-top{flex-direction:column}}
+
+/* ---------- More useful roadmap ---------- */
+.roadmap{display:flex;flex-direction:column;gap:14px}
+.roadmap-item{display:grid;grid-template-columns:92px 1fr;gap:14px;border:1px solid var(--line);background:var(--paper);padding:17px;position:relative;overflow:hidden}
+.roadmap-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--marker)}
+.roadmap-week{font-family:'Space Grotesk';font-weight:700;color:var(--marker);font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.roadmap-body h3{font-size:15.5px}.roadmap-body p{font-size:13px;color:var(--ink-soft);margin:5px 0 0}
+.roadmap-task-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.roadmap-task{font-size:11.5px;border:1px solid var(--line);padding:4px 8px;background:var(--paper-2);border-radius:12px}
+.roadmap-focus{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11.5px;color:var(--ink-soft)}.roadmap-focus b{color:var(--ink)}
+
+/* ---------- Responsive polish ---------- */
+html{overflow-x:hidden}.main-inner{width:100%}.card{overflow:hidden}
+@media(max-width:900px){.main{padding-left:20px;padding-right:20px}.page-head{padding-top:26px}.profile-chip{max-width:100%}}
+@media(max-width:520px){.main{padding:58px 14px 60px}.panel-head h2{font-size:20px}.card{padding:16px}.btn{max-width:100%}.toast-container{left:14px;right:14px;bottom:14px}.toast{font-size:12.5px}}
+
+/* ---------- Resume upload ---------- */
+.resume-upload-box{display:flex;align-items:center;gap:12px;border:1.5px dashed var(--line);background:var(--paper-2);padding:14px;margin-bottom:10px;cursor:pointer;transition:.18s ease}
+.resume-upload-box:hover,.resume-upload-box.dragging{border-color:var(--marker);background:var(--marker-soft)}
+.resume-upload-box .upload-icon{width:34px;height:34px;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:'Space Grotesk';font-weight:700;border-radius:50%;flex-shrink:0}
+.resume-upload-box div:nth-child(2){display:flex;flex-direction:column;flex:1}.resume-upload-box div:nth-child(2) b{font-family:'Space Grotesk';font-size:13.5px}.resume-upload-box div:nth-child(2) span{font-size:11.5px;color:var(--ink-soft)}
+.resume-file-meta{justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);background:var(--paper);font-size:11.5px;color:var(--ink-soft);margin-bottom:10px}
+@media(max-width:560px){.resume-upload-box{align-items:flex-start;flex-wrap:wrap}.resume-upload-box .btn{margin-left:46px}.resume-file-meta{flex-direction:column}}
+
+/* PathNotes v3 connected-product layer */
+.path-strip{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 12px;margin:0 0 22px;border:1px solid var(--line);background:var(--paper);box-shadow:0 3px 0 rgba(0,0,0,.03);}
+.path-step{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink-soft);font-size:11.5px;font-weight:600;padding:6px 8px;border-radius:999px;white-space:nowrap;}
+.path-step span{display:inline-grid;place-items:center;width:17px;height:17px;border:1px solid var(--line);border-radius:50%;font-size:9px;}
+.path-step.done{color:var(--ink);background:var(--marker-soft);}.path-step.done span{background:var(--marker);color:#111;border-color:var(--marker);}
+.path-step.current{outline:1px solid var(--marker);}.path-arrow{font-size:12px;color:var(--ink-soft);}
+.pathnotes-page-intro{display:flex;justify-content:space-between;gap:20px;padding:18px 20px;margin:0 0 22px;border-left:4px solid var(--marker);background:linear-gradient(90deg,var(--marker-soft),transparent);}
+.pathnotes-page-intro .kicker{font-size:10px;letter-spacing:.12em;font-weight:700;color:var(--ink-soft);}.pathnotes-page-intro h2{margin:4px 0 3px;font-family:'Space Grotesk';font-size:22px;}.pathnotes-page-intro p{margin:0;color:var(--ink-soft);font-size:13px;max-width:760px;line-height:1.55;}
+.project-card-item .project-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.project-card-item .project-link{font-size:11px;text-decoration:none;border-bottom:1px dashed var(--marker);color:var(--ink);}
+.internship-explore-card{border-top:1px solid var(--line);padding-top:24px;}
+@media(max-width:900px){.path-strip{overflow-x:auto;flex-wrap:nowrap}.path-arrow{display:none}.pathnotes-page-intro{padding:15px}.pathnotes-page-intro h2{font-size:19px}}

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings — PathNotes</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Caveat:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="dashboard.css" rel="stylesheet"/>
+</head>
+<body data-page="settings">
+<button class="mobile-nav-toggle" id="navToggle">☰ Menu</button>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-brand">
+<div class="brand-mark">P</div>
+<div class="brand-name">PathNotes</div>
+</div>
+<div aria-hidden="true" class="sidebar-dots"><span></span><span></span><span></span><span></span><span></span></div>
+<ul class="nav-list" id="sidebarNav">
+<li><a href="dashboard.html"><span class="dot"></span>Dashboard</a></li>
+<li><a href="skills.html"><span class="dot"></span>My Skills</a></li>
+<li><a href="career-paths.html"><span class="dot"></span>Career Paths</a></li>
+<li><a href="roadmap.html"><span class="dot"></span>Learning Roadmap</a></li>
+<li><a href="internships.html"><span class="dot"></span>Internships</a></li>
+<li><a href="resume.html"><span class="dot"></span>Resume Analyzer</a></li>
+<li><a href="tracker.html"><span class="dot"></span>Application Tracker</a></li>
+<li><a href="profile.html"><span class="dot"></span>Profile</a></li>
+<li><a href="settings.html"><span class="dot"></span>Settings</a></li>
+</ul>
+<div class="sidebar-foot">
+<a href="onboarding.html?mode=edit" id="editProfileSidebar">Edit my profile answers</a>
+<a href="#" id="logoutSidebarBtn" style="color:var(--error); margin-top:10px; display:inline-block; font-size:13px; border-bottom:1px dashed var(--error);">Log out</a>
+</div>
+</aside>
+<main class="main">
+<div class="main-inner" id="mainInner">
+<!-- Filled by JS when no onboarding data exists -->
+<div class="empty-state" id="emptyState" style="display:none;">
+<h2>No career profile yet</h2>
+<p>Your dashboard is built from your onboarding answers. Fill those in first and this page will personalize itself.</p>
+<a class="btn" href="onboarding.html">Start onboarding</a>
+</div>
+<!-- Shown when profile exists but user logged out -->
+<div class="empty-state" id="loggedOutState" style="display:none;">
+<h2>You're logged out</h2>
+<p>Welcome back, <b id="loggedOutName">Student</b>! Log back in to view your career planner, roadmap, and applications.</p>
+<div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+<button class="btn" id="loginBackBtn">Log in to dashboard →</button>
+<a class="btn btn-ghost" href="index.html">Switch user</a>
+<a class="btn btn-ghost" href="onboarding.html?new=1">New user</a>
+</div>
+</div>
+<div id="dashboardContent" style="display:none;">
+<div class="page-head">
+<div>
+<h1 id="welcomeHeading">Welcome back</h1>
+<div class="meta-row" id="metaRow"></div>
+</div>
+<div class="profile-chip">
+<span class="avatar" id="avatarInitial">?</span>
+<span id="profileChipName">—</span>
+</div>
+</div>
+<!-- QUICK STATS RIBBON -->
+<div class="stats-ribbon" id="statsRibbon">
+<div class="stat-box">
+<div class="val" id="statReadiness">0%</div>
+<div class="lbl">Readiness score</div>
+</div>
+<div class="stat-box">
+<div class="val" id="statTargetRole" style="font-size:18px; margin-top:4px;">—</div>
+<div class="lbl">Target role</div>
+</div>
+<div class="stat-box">
+<div class="val" id="statSkillsCount">0</div>
+<div class="lbl">Skills verified</div>
+</div>
+<div class="stat-box">
+<div class="val" id="statTrackerCount">0</div>
+<div class="lbl">Tracked applications</div>
+</div>
+</div>
+<!-- READINESS SCORE -->
+<section class="panel" id="readiness">
+<div class="panel-head">
+<span class="kicker">page one of your dashboard</span>
+<h2>Career readiness</h2>
+</div>
+<div class="card readiness-grid">
+<div class="ring-wrap">
+<svg height="190" viewbox="0 0 190 190" width="190">
+<circle class="ring-bg" cx="95" cy="95" r="82"></circle>
+<circle class="ring-fill" cx="95" cy="95" id="ringFill" r="82"></circle>
+</svg>
+<div class="ring-center">
+<div class="pct" id="readinessPct">0%</div>
+<div class="lbl">career ready</div>
+</div>
+</div>
+<div class="readiness-copy">
+<p id="readinessBlurb">Your readiness score blends your skills, projects, and self-rated preparation against the roles you're aiming for.</p>
+<div class="badge-line" id="readinessBadges"></div>
+</div>
+</div>
+</section>
+<!-- CAREER PATHS -->
+<section class="panel" id="paths">
+<div class="panel-head">
+<span class="kicker">based on your interests</span>
+<h2>Recommended career paths</h2>
+</div>
+<div class="path-list" id="pathList"></div>
+</section>
+<!-- SKILLS -->
+<section class="panel" id="skills">
+<div class="panel-head">
+<span class="kicker">page three</span>
+<h2>Skill analysis</h2>
+</div>
+<div class="card skills-grid">
+<div class="skill-block have">
+<h3>Skills you have</h3>
+<div class="tag-list" id="haveSkills"></div>
+<div class="add-skill-inline">
+<input id="inlineSkillInput" placeholder="Add a skill you know..." type="text"/>
+<button class="btn btn-sm btn-solid" id="inlineSkillBtn">+ Add</button>
+</div>
+</div>
+<div class="skill-block gap">
+<h3>Skills to improve</h3>
+<div class="tag-list" id="gapSkills"></div>
+</div>
+</div>
+</section>
+<!-- ROADMAP -->
+<section class="panel" id="roadmap">
+<div class="panel-head">
+<span class="kicker">built from your gaps</span>
+<h2>Your 4-week roadmap</h2>
+</div>
+<div class="card">
+<div class="roadmap-progress-bar">
+<div class="roadmap-progress-fill" id="roadmapProgressFill" style="width:0%;"></div>
+</div>
+<div id="roadmapProgressText" style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">0 of 4 milestones completed</div>
+<div class="roadmap" id="roadmapList"></div>
+</div>
+</section>
+<!-- INTERNSHIPS -->
+<section class="panel" id="internships">
+<div class="panel-head">
+<span class="kicker">page six</span>
+<h2>Internship readiness</h2>
+</div>
+<div class="card bars" id="readinessBars"></div>
+
+</section>
+<!-- RESUME ANALYZER -->
+<section class="panel" id="resume">
+<div class="panel-head">
+<span class="kicker">resume check</span>
+<h2>Resume keyword analyzer</h2>
+<p style="font-size:13.5px; color:var(--ink-soft); margin-top:4px;">Paste your resume text to evaluate keyword alignment against <b id="resumeRoleLabel">your target role</b>.</p>
+</div>
+<div class="card resume-grid">
+<div>
+<textarea class="resume-textarea" id="resumeText" placeholder="Paste your resume plain text or Markdown here... (include education, skills, projects, and links)"></textarea>
+<div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+<button class="btn btn-solid btn-sm" id="analyzeResumeBtn">Analyze resume</button>
+
+<button class="btn btn-ghost btn-sm" id="clearResumeBtn" style="border:none; text-decoration:underline; font-size:13px;">Clear</button>
+</div>
+</div>
+<div id="resumeResults">
+<div id="resumePlaceholder" style="text-align:center; padding:40px 10px; color:var(--ink-soft);">
+<p>Paste your resume text and click <b>Analyze resume</b> to see keyword matches and formatting checks.</p>
+</div>
+<div id="resumeAnalysisContent" style="display:none;">
+<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:14px;">
+<span style="font-family:'Space Grotesk'; font-weight:700;">Match against <span id="analyzedRoleName">SDE</span></span>
+<span class="match-badge" id="resumeScoreBadge">0% Match</span>
+</div>
+<div style="margin-bottom:14px;">
+<div style="font-size:12.5px; font-family:'Space Grotesk'; color:var(--ink-soft); margin-bottom:6px;">Matched Keywords</div>
+<div class="tag-list" id="resumeMatchedKeywords"></div>
+</div>
+<div style="margin-bottom:14px;">
+<div style="font-size:12.5px; font-family:'Space Grotesk'; color:var(--ink-soft); margin-bottom:6px;">Missing Recommended Keywords</div>
+<div class="tag-list" id="resumeMissingKeywords"></div>
+</div>
+<div style="margin-top:16px; border-top:1px solid var(--line); padding-top:12px;">
+<div style="font-size:12.5px; font-family:'Space Grotesk'; color:var(--ink-soft); margin-bottom:8px;">Section Checklist</div>
+<div id="resumeChecklist"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- APPLICATION TRACKER -->
+<section class="panel" id="tracker">
+<div class="panel-head" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+<div>
+<span class="kicker">application pipeline</span>
+<h2>Application tracker</h2>
+<p style="font-size:13.5px; color:var(--ink-soft); margin-top:4px;">Manage every application across Wishlist, Applied, OA, Interview, and Offer stages.</p>
+</div>
+<button class="btn btn-solid btn-sm" id="openAddAppModalBtn">+ Track new application</button>
+</div>
+<div class="card">
+<div class="tracker-summary" id="trackerSummary">
+<span class="tracker-summary-pill" id="pillTotalApps">0 Total</span>
+<span class="tracker-summary-pill" id="pillWishlistApps">0 Wishlist</span>
+<span class="tracker-summary-pill" id="pillAppliedApps">0 Applied</span>
+<span class="tracker-summary-pill" id="pillInterviewApps">0 Interviews/OA</span>
+<span class="tracker-summary-pill" id="pillOfferApps">0 Offers</span>
+</div>
+<div class="filter-bar" id="trackerFilterBar">
+<button class="filter-btn active" data-status="all">All</button>
+<button class="filter-btn" data-status="Wishlist">Wishlist</button>
+<button class="filter-btn" data-status="Applied">Applied</button>
+<button class="filter-btn" data-status="OA">OA / Test</button>
+<button class="filter-btn" data-status="Interview">Interview</button>
+<button class="filter-btn" data-status="Offer">Offer</button>
+<button class="filter-btn" data-status="Rejected">Rejected</button>
+</div>
+<div class="tracker-table-wrap">
+<table class="tracker-table">
+<thead>
+<tr>
+<th>Company</th>
+<th>Role</th>
+<th>Date</th>
+<th>Status</th>
+<th>Notes</th>
+<th style="text-align:right;">Actions</th>
+</tr>
+</thead>
+<tbody id="trackerTableBody">
+<!-- Filled by JS -->
+</tbody>
+</table>
+</div>
+<div id="trackerEmptyState" style="display:none; text-align:center; padding:36px 14px; color:var(--ink-soft);">
+<p>No applications tracked yet. Save an internship from the feed above or click "+ Track new application".</p>
+</div>
+</div>
+</section>
+<!-- PROFILE SECTION -->
+<section class="panel" id="profile">
+<div class="panel-head" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+<div>
+<span class="kicker">student portfolio</span>
+<h2>Career profile &amp; projects</h2>
+</div>
+<a class="btn btn-ghost btn-sm" href="onboarding.html?mode=edit">Edit full questionnaire →</a>
+</div>
+<div class="card" style="margin-bottom:20px;">
+<h3 style="font-size:16px; margin-bottom:14px;">Academic &amp; Background</h3>
+<div class="profile-details-grid" id="profileDetailsGrid">
+<!-- Filled by JS -->
+</div>
+</div>
+<div class="card">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+<h3 style="font-size:16px;">Projects Portfolio (<span id="profileProjectCount">0</span>)</h3>
+<button class="btn btn-solid btn-sm" id="profileAddProjectBtn">+ Add Project</button>
+</div>
+<div id="profileProjectList">
+<!-- Filled by JS -->
+</div>
+</div>
+</section>
+<!-- SETTINGS SECTION -->
+<section class="panel" id="settings">
+<div class="panel-head">
+<span class="kicker">planner preferences</span>
+<h2>Settings &amp; Account</h2>
+</div>
+<div class="card settings-section">
+<div>
+<h3 style="font-size:16px; margin-bottom:8px;">Data &amp; Backup</h3>
+<p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:12px;">Export all your profile answers, skill scores, and tracked applications as a JSON backup.</p>
+<button class="btn btn-ghost btn-sm" id="exportDataBtn">Export profile data (JSON)</button>
+</div>
+<hr style="border:none; border-top:1px solid var(--line); margin:10px 0;"/>
+<div class="danger-zone">
+<h3>Account &amp; Reset Controls</h3>
+<p>Log out of your session or reset your profile answers. Resetting will clear onboarding answers and start fresh.</p>
+<div style="display:flex; gap:12px; flex-wrap:wrap;">
+<button class="btn btn-ghost btn-sm" id="logoutSettingsBtn">Log out</button>
+<a class="btn btn-ghost btn-sm" href="index.html">Switch user</a>
+<a class="btn btn-ghost btn-sm" href="onboarding.html?new=1">New user</a>
+<button class="btn btn-danger btn-sm" id="resetProfileBtn">Reset profile &amp; start over</button>
+</div>
+</div>
+</div>
+</section>
+<!-- RECOMMENDED ACTIONS -->
+<section class="panel" id="actions">
+<div class="panel-head">
+<span class="kicker">do these next</span>
+<h2>Recommended actions</h2>
+</div>
+<div class="pins" id="actionCards"></div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- MODAL CONTAINER -->
+<div id="modalContainer" style="display:none;"></div>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+<script src="account.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
