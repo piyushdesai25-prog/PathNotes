@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build your career profile — PathNotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-name">PathNotes</div>
+  </div>
+  <a href="index.html" class="exit-link" id="exitLink">Save &amp; exit</a>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progressLabel">Step 1 of 6 — Personal &amp; academic info</div>
+  <div class="progress-track" id="progressTrack">
+    <div class="progress-seg"><div class="fill"></div></div>
+    <div class="progress-seg"><div class="fill"></div></div>
+    <div class="progress-seg"><div class="fill"></div></div>
+    <div class="progress-seg"><div class="fill"></div></div>
+    <div class="progress-seg"><div class="fill"></div></div>
+    <div class="progress-seg"><div class="fill"></div></div>
+  </div>
+</div>
+
+<main class="onboard-shell">
+  <div class="step-card">
+
+    <div id="editBanner" style="display:none; background:var(--marker-soft); border:1.5px dashed var(--marker); padding:10px 14px; margin-bottom:22px; font-size:13.5px; border-radius:3px;">
+      <b>Edit Profile:</b> Pre-filled with your saved profile. Changes will update your dashboard.
+    </div>
+
+    <!-- STEP 1 -->
+    <section class="step-content active" data-step="1">
+      <span class="step-kicker">page one</span>
+      <h2 class="step-title">Where you're starting</h2>
+      <p class="step-sub">The basics, so your roadmap and matches make sense for where you actually are.</p>
+
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" required>
+        <div class="field-error-msg">Enter your name to continue.</div>
+      </div>
+      <div class="field">
+        <label for="collegeName">College name</label>
+        <input type="text" id="collegeName" required>
+        <div class="field-error-msg">Enter your college name.</div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="degree">Degree</label>
+          <select id="degree" required>
+            <option value="">Select</option>
+            <option>B.Tech</option>
+            <option>B.E.</option>
+            <option>B.Sc</option>
+            <option>BCA</option>
+            <option>M.Tech</option>
+            <option>Diploma</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error-msg">Select your degree.</div>
+        </div>
+        <div class="field">
+          <label for="branch">Branch / specialization</label>
+          <input type="text" id="branch" placeholder="e.g. Computer Science" required>
+          <div class="field-error-msg">Enter your branch.</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="yearSem">Current year / semester</label>
+          <select id="yearSem" required>
+            <option value="">Select</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>5th Year</option>
+          </select>
+          <div class="field-error-msg">Select your current year.</div>
+        </div>
+        <div class="field">
+          <label for="gradYear">Graduation year</label>
+          <input type="number" id="gradYear" min="2026" max="2032" placeholder="2027" required>
+          <div class="field-error-msg">Enter your graduation year.</div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="location">Location <span class="optional">(optional)</span></label>
+        <input type="text" id="location" placeholder="City, State">
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step-content" data-step="2">
+      <span class="step-kicker">page two</span>
+      <h2 class="step-title">What you're aiming for</h2>
+      <p class="step-sub">Pick as many interests as apply — this shapes which roles we match you against.</p>
+
+      <div class="field">
+        <fieldset>
+          <legend>What career paths are you interested in?</legend>
+          <ul class="chip-list" id="careerInterests">
+            <li>Software Development</li>
+            <li>Web Development</li>
+            <li>Data Science</li>
+            <li>Artificial Intelligence / Machine Learning</li>
+            <li>Cybersecurity</li>
+            <li>Cloud Computing</li>
+            <li>DevOps</li>
+            <li>Mobile App Development</li>
+            <li>UI/UX Design</li>
+            <li>Product Management</li>
+          </ul>
+        </fieldset>
+        <div class="field-error-msg" id="interestsError">Pick at least one career path.</div>
+      </div>
+
+      <div class="field">
+        <fieldset>
+          <legend>What's your primary career goal right now?</legend>
+          <ul class="chip-list marker" id="primaryGoal">
+            <li>Internship</li>
+            <li>Placement / Full-time job</li>
+            <li>Higher studies</li>
+            <li>Freelancing</li>
+            <li>Exploring career options</li>
+          </ul>
+        </fieldset>
+        <div class="field-error-msg" id="goalError">Pick one goal to continue.</div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step-content" data-step="3">
+      <span class="step-kicker">page three</span>
+      <h2 class="step-title">What you already know</h2>
+      <p class="step-sub">Tick everything that applies. You can add anything that's missing at the bottom.</p>
+
+      <div class="skill-group">
+        <h4>Programming languages</h4>
+        <ul class="chip-list skill-chip-list">
+          <li>C</li><li>C++</li><li>Java</li><li>Python</li><li>JavaScript</li><li>TypeScript</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Web development</h4>
+        <ul class="chip-list skill-chip-list">
+          <li>HTML</li><li>CSS</li><li>React</li><li>Node.js</li><li>Express.js</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Databases</h4>
+        <ul class="chip-list skill-chip-list">
+          <li>MySQL</li><li>MongoDB</li><li>PostgreSQL</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Tools</h4>
+        <ul class="chip-list skill-chip-list">
+          <li>Git</li><li>GitHub</li><li>Docker</li><li>Linux</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Other</h4>
+        <ul class="chip-list skill-chip-list">
+          <li>DSA</li><li>OOP</li><li>REST APIs</li><li>AWS</li><li>Machine Learning</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Added by you</h4>
+        <ul class="chip-list skill-chip-list on-by-default" id="customSkillList"></ul>
+        <div class="add-skill-row">
+          <input type="text" id="customSkillInput" placeholder="e.g. Figma, Kotlin, Blender">
+          <span class="btn btn-ghost" id="addSkillBtn">+ Add skill</span>
+        </div>
+      </div>
+      <div class="field-error-msg" id="skillsError">Add or tick at least one skill.</div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step-content" data-step="4">
+      <span class="step-kicker">page four</span>
+      <h2 class="step-title">What you've built so far</h2>
+      <p class="step-sub">Projects and experience — even small or unfinished ones count.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="internshipExp">Internship experience</label>
+          <select id="internshipExp">
+            <option value="None">None yet</option>
+            <option value="1">1 internship</option>
+            <option value="2">2 internships</option>
+            <option value="3+">3 or more</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="hackathons">Hackathon participation</label>
+          <select id="hackathons">
+            <option value="0">None yet</option>
+            <option value="1-2">1–2</option>
+            <option value="3-5">3–5</option>
+            <option value="5+">5+</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="certifications">Certifications <span class="optional">(optional)</span></label>
+        <input type="text" id="certifications" placeholder="e.g. NPTEL DSA, AWS Cloud Practitioner">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="githubLink">GitHub profile <span class="optional">(optional)</span></label>
+          <input type="url" id="githubLink" placeholder="https://github.com/username">
+        </div>
+        <div class="field">
+          <label for="linkedinLink">LinkedIn profile <span class="optional">(optional)</span></label>
+          <input type="url" id="linkedinLink" placeholder="https://linkedin.com/in/username">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Projects</label>
+        <div id="projectList"></div>
+        <span class="add-project-btn" id="addProjectBtn">+ Add a project</span>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="step-content" data-step="5">
+      <span class="step-kicker">page five</span>
+      <h2 class="step-title">Where you'd rate yourself</h2>
+      <p class="step-sub">Be honest, not aspirational — this is what your roadmap gets built from.</p>
+
+      <div class="level-row" data-level-key="dsa">
+        <span class="lr-label">Data structures &amp; algorithms</span>
+        <div class="level-options"><div class="level-opt">Beginner</div><div class="level-opt">Intermediate</div><div class="level-opt">Advanced</div></div>
+      </div>
+      <div class="level-row" data-level-key="dev">
+        <span class="lr-label">Development skills</span>
+        <div class="level-options"><div class="level-opt">Beginner</div><div class="level-opt">Intermediate</div><div class="level-opt">Advanced</div></div>
+      </div>
+      <div class="level-row" data-level-key="cs">
+        <span class="lr-label">Core computer science subjects</span>
+        <div class="level-options"><div class="level-opt">Beginner</div><div class="level-opt">Intermediate</div><div class="level-opt">Advanced</div></div>
+      </div>
+      <div class="level-row" data-level-key="comm">
+        <span class="lr-label">Communication skills</span>
+        <div class="level-options"><div class="level-opt">Beginner</div><div class="level-opt">Intermediate</div><div class="level-opt">Advanced</div></div>
+      </div>
+      <div class="level-row" data-level-key="apt">
+        <span class="lr-label">Aptitude / problem solving</span>
+        <div class="level-options"><div class="level-opt">Beginner</div><div class="level-opt">Intermediate</div><div class="level-opt">Advanced</div></div>
+      </div>
+      <div class="field-error-msg" id="levelsError">Rate yourself on all five to continue.</div>
+
+      <div class="field" style="margin-top:26px;">
+        <fieldset>
+          <legend>How many hours a week can you give this?</legend>
+          <ul class="chip-list marker" id="hoursPerWeek">
+            <li>2–5 hours</li>
+            <li>5–10 hours</li>
+            <li>10–15 hours</li>
+            <li>15+ hours</li>
+          </ul>
+        </fieldset>
+        <div class="field-error-msg" id="hoursError">Pick how many hours you can give.</div>
+      </div>
+    </section>
+
+    <!-- STEP 6 -->
+    <section class="step-content" data-step="6">
+      <span class="step-kicker">page six</span>
+      <h2 class="step-title">The kind of company you're picturing</h2>
+      <p class="step-sub">Pick as many as fit — this just tunes which internships get surfaced first.</p>
+
+      <div class="field">
+        <fieldset>
+          <legend>What type of companies are you targeting?</legend>
+          <ul class="chip-list" id="companyTypes">
+            <li>Startups</li>
+            <li>Product-based companies</li>
+            <li>Service-based companies</li>
+            <li>Research organizations</li>
+            <li>Open source organizations</li>
+            <li>No preference</li>
+          </ul>
+        </fieldset>
+        <div class="field-error-msg" id="companyError">Pick at least one, or "No preference".</div>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section class="step-content" data-step="final">
+      <span class="step-kicker">last page</span>
+      <h2 class="step-title">Your career profile is ready</h2>
+      <p class="step-sub">Here's what we've got. Your dashboard is built from this.</p>
+
+      <div class="summary-note">
+        <h2>Quick recap</h2>
+        <div class="summary-grid">
+          <div class="summary-stat"><div class="num" id="sumInterests">0</div><div class="lbl">career interests selected</div></div>
+          <div class="summary-stat"><div class="num" id="sumSkills">0</div><div class="lbl">skills added</div></div>
+          <div class="summary-stat"><div class="num" id="sumProjects">0</div><div class="lbl">projects listed</div></div>
+          <div class="summary-stat"><div class="num" id="sumGoal">—</div><div class="lbl">primary goal</div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="step-actions">
+      <span class="btn btn-ghost" id="backBtn">Back</span>
+      <span class="spacer"></span>
+      <span class="btn btn-solid" id="continueBtn">Continue</span>
+      <span class="btn btn-solid" id="generateBtn" style="display:none;">Generate my career dashboard</span>
+    </div>
+
+  </div>
+</main>
+
+<script src="account.js"></script>
+<script src="onboarding.js"></script>
+</body>
+</html>
